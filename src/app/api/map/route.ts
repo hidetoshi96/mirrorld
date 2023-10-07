@@ -29,9 +29,12 @@ export async function GET() {
         },
       },
     });
-    const tags = [
-      ...new Set(res.flatMap((post) => post.tags.map((tag) => tag.name))),
-    ];
+
+    const tagsObject = new Set(
+      res.flatMap((post) => post.tags.map((tag) => tag.name)),
+    );
+    const tagsArray = Array.from(tagsObject);
+
     const posts = res.map((post) => {
       const wonderfulClicked =
         post.wonderfulUsers.find(
@@ -66,6 +69,6 @@ export async function GET() {
       };
     });
 
-    return NextResponse.json({ posts: posts, tags: tags });
+    return NextResponse.json({ posts: posts, tags: tagsArray });
   }
 }
