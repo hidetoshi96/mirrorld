@@ -30,6 +30,7 @@ export default function loginPage() {
                 onClick={() => signIn("spotify", { callbackUrl: "/mypage" })}
               />
             </div>
+            <div>{process.env.TEST ?? ""}</div>
             {/* <div>
               <GithubLoginButton
                 align="center"
