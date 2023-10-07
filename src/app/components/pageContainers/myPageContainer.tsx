@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import Modal from "../modal";
 import Models from "../models";
@@ -11,7 +12,7 @@ export default function MyPageContainer() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { data: session } = useSession();
   console.log(session);
-  const handleUpdate = async () => {
+  const handlePostUpdate = async () => {
     const res = await fetch("api/mypage", { method: "GET" });
     const json = await res.json();
     console.log(json);
@@ -19,7 +20,7 @@ export default function MyPageContainer() {
     console.log(posts);
   };
   useEffect(() => {
-    handleUpdate();
+    handlePostUpdate();
   }, []);
   return (
     <>
@@ -33,7 +34,7 @@ export default function MyPageContainer() {
         <div className="space-y-10 px-5">
           <div className="grid grid-flow-col place-content-center gap-x-5">
             {session?.user?.image ? (
-              <img
+              <Image
                 className="h-20 w-20 rounded-full object-cover"
                 src={session?.user?.image}
                 alt="Profile image"
@@ -65,7 +66,7 @@ export default function MyPageContainer() {
           isOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           post={posts[selectPostId]}
-          postsUpdate={handleUpdate}
+          postsUpdate={handlePostUpdate}
         ></Modal>
       )}
     </>
