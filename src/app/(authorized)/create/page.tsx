@@ -14,7 +14,7 @@ type inputsProp = {
   movieUrl: string | null;
 };
 
-export default function createPage() {
+export default function CreatePage() {
   const { data: session } = useSession();
   console.log(session);
   const [movie, setMovie] = useState<File | null>(null);
