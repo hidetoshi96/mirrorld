@@ -45,6 +45,8 @@ export default function Models({
                         alt="Post image"
                         width={120}
                         height={150}
+                        placeholder="blur"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8WQ8AAjcBWtrfQHkAAAAASUVORK5CYII="
                       />
                       <p className="text-base font-semibold text-secondary">
                         {post.title}

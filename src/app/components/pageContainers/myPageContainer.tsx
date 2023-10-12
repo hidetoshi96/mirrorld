@@ -15,9 +15,9 @@ export default function MyPageContainer() {
   const handlePostUpdate = async () => {
     const res = await fetch("api/mypage", { method: "GET" });
     const json = await res.json();
-    console.log(json);
+    console.log("json", json);
     setPosts(json);
-    console.log(posts);
+    console.log("posts", posts);
   };
   useEffect(() => {
     handlePostUpdate();
@@ -40,6 +40,8 @@ export default function MyPageContainer() {
                 alt="Profile image"
                 width={80}
                 height={80}
+                placeholder="blur"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8WQ8AAjcBWtrfQHkAAAAASUVORK5CYII="
               />
             ) : (
               <IconUserCircle
