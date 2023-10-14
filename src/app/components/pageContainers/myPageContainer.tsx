@@ -1,27 +1,26 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "../modal";
 import Models from "../models";
 import { signOut, useSession } from "next-auth/react";
 import { IconUserCircle } from "@tabler/icons-react";
 
-export default function MyPageContainer() {
-  const [posts, setPosts] = useState<Post[]>([]);
+interface Props {
+  initialPosts: Post[];
+}
+
+export default function MyPageContainer({ initialPosts }: Props) {
+  const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [selectPostId, setSelectPostId] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { data: session } = useSession();
-  console.log(session);
+
   const handlePostUpdate = async () => {
     const res = await fetch("api/mypage", { method: "GET" });
     const json = await res.json();
-    console.log("json", json);
     setPosts(json);
-    console.log("posts", posts);
   };
-  useEffect(() => {
-    handlePostUpdate();
-  }, []);
   return (
     <>
       <div className="space-y-8 py-8">
