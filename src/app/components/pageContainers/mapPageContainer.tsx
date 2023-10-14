@@ -6,9 +6,14 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import Tabs from "../tabs";
 import Tags from "../tags";
 
-export default function MapPageContainer() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
+interface Props {
+  initialPosts: Post[];
+  initialTags: string[];
+}
+
+export default function MapPageContainer({ initialPosts, initialTags }: Props) {
+  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const [tags, setTags] = useState<string[]>(initialTags);
   const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectPostId, setSelectPostId] = useState<number>(0);
@@ -20,10 +25,9 @@ export default function MapPageContainer() {
 
   const handlePostUpdate = async () => {
     const res = await fetch("api/map", { method: "GET" });
-    const json = await res.json();
-    console.log("json", json);
-    setPosts(json.posts);
-    setTags(json.tags);
+    const data = await res.json();
+    setTags(data.tags);
+    setPosts(data.posts);
   };
 
   const createMarker = (
@@ -33,6 +37,7 @@ export default function MapPageContainer() {
     },
     index: number,
   ) => {
+    console.log("createMarker function");
     const parent = document.createElement("div");
     const child = document.createElement("div");
     const grandChild = document.createElement("div");
@@ -100,15 +105,9 @@ export default function MapPageContainer() {
     setSelectedTabIndex(tabIndex);
     setMarkers((markers) => ({ ...markers, ...addMarkers }));
   };
-  //marker update
-  useEffect(() => {
-    handleMarkerUpdate(selectedTabIndex, selectedTags);
-  }, [posts]);
 
   //create map
   useEffect(() => {
-    handlePostUpdate();
-
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY!;
     const map = new mapboxgl.Map({
       container: "map",
@@ -119,7 +118,6 @@ export default function MapPageContainer() {
       bearing: 0,
       antialias: true,
     });
-    setMap(map);
 
     map.addControl(
       new mapboxgl.GeolocateControl({
@@ -130,7 +128,16 @@ export default function MapPageContainer() {
         showUserHeading: true,
       }),
     );
+    setMap(map);
   }, []);
+
+  //marker update
+  useEffect(() => {
+    if (map === null) {
+      return;
+    }
+    handleMarkerUpdate(selectedTabIndex, selectedTags);
+  }, [map, posts]);
 
   return (
     <div className="relative h-full">
