@@ -37,7 +37,6 @@ export default function MapPageContainer({ initialPosts, initialTags }: Props) {
     },
     index: number,
   ) => {
-    console.log("createMarker function");
     const parent = document.createElement("div");
     const child = document.createElement("div");
     const grandChild = document.createElement("div");
@@ -82,14 +81,6 @@ export default function MapPageContainer({ initialPosts, initialTags }: Props) {
     return filteredIds;
   };
 
-  const handleTabUpdate = (tabIndex: number) => {
-    handleMarkerUpdate(tabIndex, selectedTags);
-  };
-
-  const handleTagsUpdate = (tags: string[]) => {
-    handleMarkerUpdate(selectedTabIndex, tags);
-  };
-
   const handleMarkerUpdate = (tabIndex: number, tags: string[]) => {
     Object.values(markers).forEach((marker) => {
       marker.remove();
@@ -101,8 +92,6 @@ export default function MapPageContainer({ initialPosts, initialTags }: Props) {
       const marker = createMarker(post, index);
       addMarkers = { ...addMarkers, [post.id]: marker };
     });
-    setSelectedTags(tags);
-    setSelectedTabIndex(tabIndex);
     setMarkers((markers) => ({ ...markers, ...addMarkers }));
   };
 
@@ -137,7 +126,7 @@ export default function MapPageContainer({ initialPosts, initialTags }: Props) {
       return;
     }
     handleMarkerUpdate(selectedTabIndex, selectedTags);
-  }, [map, posts]);
+  }, [map, posts, selectedTabIndex, selectedTags]);
 
   return (
     <div className="relative h-full">
@@ -151,12 +140,12 @@ export default function MapPageContainer({ initialPosts, initialTags }: Props) {
       <div className="absolute inset-x-0 top-2 mx-3 flex  flex-col justify-center space-y-2">
         <Tabs
           selectedIndex={selectedTabIndex}
-          setSelectedIndex={handleTabUpdate}
+          setSelectedIndex={setSelectedTabIndex}
         />
         <Tags
           tags={tags}
           selectedTags={selectedTags}
-          setSelectedTags={handleTagsUpdate}
+          setSelectedTags={setSelectedTags}
         />
       </div>
       {Object.keys(posts).length != 0 && (
