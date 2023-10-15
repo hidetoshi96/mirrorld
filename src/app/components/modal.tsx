@@ -38,7 +38,7 @@ export default function Modal({
     <Dialog open={isOpen} onClose={() => setIsModalOpen(false)}>
       <div className="fixed inset-0 z-40 bg-black/30" aria-hidden="true" />
       <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto h-5/6 max-w-sm rounded-xl bg-white">
+        <Dialog.Panel className="mx-auto h-5/6 max-w-sm overflow-y-scroll rounded-xl bg-white">
           <div className="mx-8 my-8 grid justify-items-stretch space-y-2.5">
             <div className="flex flex-row place-self-center">
               <p>{post.title}</p>
