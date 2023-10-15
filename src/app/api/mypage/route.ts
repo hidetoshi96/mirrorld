@@ -22,6 +22,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
             createdTime: true,
             wonderfulUsers: true,
             niceChallengeUsers: true,
+            tags: true,
             _count: {
               select: {
                 wonderfulUsers: true,
@@ -48,6 +49,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         slug: post.slug,
         imageUrl: post.imageUrl,
         createdTime: post.createdTime,
+        tags: post.tags.map((tag) => tag.name),
         stamps: {
           wonderfulStamp: {
             clicked: wonderfulClicked,

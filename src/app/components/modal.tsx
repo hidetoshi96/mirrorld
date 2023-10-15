@@ -71,6 +71,9 @@ export default function Modal({
                 date.getMonth() + 1
               }月${date.getDate()}日`}
             </p>
+            <p className="text-center text-xs text-primary">
+              {post.tags.map((tag) => "#" + tag).join(" ")}
+            </p>
             <div className="grid grid-flow-row grid-cols-2 place-items-stretch gap-2 ">
               <StampButton
                 name={"wonderful"}
