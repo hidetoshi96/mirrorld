@@ -5,6 +5,7 @@ import Modal from "../modal";
 import Models from "../models";
 import { signOut, useSession } from "next-auth/react";
 import { IconUserCircle } from "@tabler/icons-react";
+import { Post } from "@/types/post";
 
 interface Props {
   initialPosts: Post[];
