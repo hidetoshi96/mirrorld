@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Disclosure } from "@headlessui/react";
 import { IconChevronDown } from "@tabler/icons-react";
+import { Post } from "@/types/post";
 
 interface Props {
   posts: Post[];
