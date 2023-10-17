@@ -1,4 +1,4 @@
-interface Post {
+export type Post = {
   id: number;
   title: string;
   slug: string;
@@ -8,19 +8,19 @@ interface Post {
   location: Location;
   tags: string[];
   stamps: Stamps;
-}
+};
 
-interface Location {
+export type Location = {
   latitude: number;
   longitude: number;
-}
+};
 
-interface Stamps {
+export type Stamps = {
   wonderfulStamp: Stamp;
   niceChallengeStamp: Stamp;
-}
+};
 
-interface Stamp {
+export type Stamp = {
   clicked: boolean;
   count: number;
-}
+};

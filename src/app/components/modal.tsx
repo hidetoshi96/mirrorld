@@ -11,6 +11,8 @@ import {
   TrophyIcon as TrophyIconSolid,
   HandThumbUpIcon as HandThumbUpIconSolid,
 } from "@heroicons/react/24/solid";
+import { Post } from "@/types/post";
+import Link from "next/link";
 
 interface Props {
   isOpen: boolean;
@@ -33,6 +35,7 @@ export default function Modal({
     console.log(response);
     postsUpdate();
   };
+
   const date = new Date(post.createdTime);
   return (
     <Dialog open={isOpen} onClose={() => setIsModalOpen(false)}>
@@ -42,14 +45,17 @@ export default function Modal({
           <div className="mx-8 my-8 grid justify-items-stretch space-y-2.5">
             <div className="flex flex-row place-self-center">
               <p>{post.title}</p>
-              <button>
+              <Link
+                className="flex items-center"
+                href={`/map?latitude=${post.location.latitude}&longitude=${post.location.longitude}`}
+              >
                 <IconMapPin
                   width={"16"}
                   height={"16"}
                   strokeWidth={"1"}
                   className="text-primary"
                 />
-              </button>
+              </Link>
               <button>
                 <IconLink
                   width={"16"}

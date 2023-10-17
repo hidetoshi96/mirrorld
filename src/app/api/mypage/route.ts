@@ -18,6 +18,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
             id: true,
             title: true,
             slug: true,
+            latitude: true,
+            longitude: true,
             imageUrl: true,
             createdTime: true,
             wonderfulUsers: true,
@@ -49,6 +51,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
         slug: post.slug,
         imageUrl: post.imageUrl,
         createdTime: post.createdTime,
+        location: {
+          latitude: post.latitude,
+          longitude: post.longitude,
+        },
         tags: post.tags.map((tag) => tag.name),
         stamps: {
           wonderfulStamp: {
