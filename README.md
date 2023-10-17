@@ -11,6 +11,7 @@
 
 - [Next.js](https://nextjs.org/)
 - [React](https://react.dev/)
+- [Auth.js](https://authjs.dev/)
 - [next-pwa](https://github.com/DuCanhGH/next-pwa)
 - [mapbox](https://www.mapbox.jp/)
 - [Luma AI](https://lumalabs.ai/)
