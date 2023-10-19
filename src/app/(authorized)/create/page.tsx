@@ -3,7 +3,6 @@ import Button from "@/app/components/button";
 import LocationInput from "@/app/components/locationInput";
 import MovieInput from "@/app/components/movieInput";
 import TextInput from "@/app/components/textInput";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 
@@ -12,25 +11,36 @@ type inputsProp = {
   latitude: number | null;
   longitude: number | null;
   movieUrl: string | null;
+  tags: string[];
 };
 
 export default function CreatePage() {
-  const { data: session } = useSession();
-  console.log(session);
   const [movie, setMovie] = useState<File | null>(null);
   const [inputs, setInputs] = useState<inputsProp>({
     title: null,
     latitude: null,
     longitude: null,
     movieUrl: null,
+    tags: [],
   });
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const key = event.target.name;
-    const value =
-      key === "latitude" || key === "longitude"
-        ? parseFloat(event.target.value)
-        : event.target.value;
-    setInputs({ ...inputs, [key]: value });
+    switch (key) {
+      case "latitude" || "longitude":
+        setInputs({ ...inputs, [key]: parseFloat(event.target.value) });
+        break;
+      case "tags":
+        const tagArray = event.target.value.split(" ");
+        const removeEmptyTags = tagArray.filter((tag) => tag !== "");
+        const uniqueTagObjects = new Set(removeEmptyTags);
+        setInputs({
+          ...inputs,
+          [key]: Array.from(uniqueTagObjects),
+        });
+        break;
+      default:
+        setInputs({ ...inputs, [key]: event.target.value });
+    }
   };
   const handleChangeMovie = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -39,8 +49,8 @@ export default function CreatePage() {
     setInputs({ ...inputs, movieUrl: value });
     setMovie(fileObject);
   };
-  const handleShare = async () => {
-    console.log(inputs);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       const createRes = await fetch("/api/create/createCapture", {
         method: "POST",
@@ -54,14 +64,23 @@ export default function CreatePage() {
         method: "PUT",
         body: movie,
       });
-      console.log(await uploadRes.json());
 
-      const triggerRes = await fetch("/api/create/trigger", {
+      await fetch("/api/create/triggerCapture", {
         method: "POST",
         body: JSON.stringify({ slug: slug }),
       });
+      const res = await fetch("/api/create", {
+        method: "PUT",
+        body: JSON.stringify({
+          title: inputs.title,
+          slug: slug,
+          latitude: inputs.latitude,
+          longitude: inputs.longitude,
+          tags: [],
+        }),
+      });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -71,8 +90,7 @@ export default function CreatePage() {
         <p className="text-3xl font-semibold text-secondary">3Dモデル作成</p>
       </div>
       <form
-        action="/api/posts"
-        method="post"
+        onSubmit={handleSubmit}
         className="flex flex-col items-stretch space-y-5 px-5"
       >
         <TextInput
@@ -87,12 +105,12 @@ export default function CreatePage() {
           onChange={handleChangeMovie}
         />
         <TextInput
-          name={"tag"}
+          name={"tags"}
           labelName={"タグ"}
-          placeHolder={"#食べ物 #ラーメン #日本"}
+          placeHolder={"食べ物 ラーメン 日本"}
           onChange={handleChange}
         />
-        <Button text={"シェア"} onClick={handleShare} addClass={""}>
+        <Button text={"シェア"}>
           <PaperAirplaneIcon className="h-6 w-6 text-white" />
         </Button>
       </form>

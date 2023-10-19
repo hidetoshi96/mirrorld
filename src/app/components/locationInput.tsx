@@ -6,7 +6,7 @@ export default function LocationInput({ onChange }: Props) {
   return (
     <div className="space-y-4">
       <p className="text-2xl font-semibold text-secondary">位置情報</p>
-      <div className="flex flex-row space-x-2.5">
+      <div className="grid grid-flow-col justify-stretch space-x-2.5">
         <div>
           <p className="text-base font-semibold text-secondary">経度</p>
           <input

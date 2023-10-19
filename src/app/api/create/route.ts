@@ -10,8 +10,8 @@ export async function PUT(req: NextRequest) {
   if (!session) {
     return NextResponse.json({ status: 401 });
   }
-  const { title, slug, latitude, longitude, imageUrl, tags } = await req.json();
-  if (!(title && slug && latitude && longitude)) {
+  const { title, slug, latitude, longitude, tags } = await req.json();
+  if (!(title && slug && latitude && longitude && tags)) {
     return NextResponse.json({ status: 400 });
   }
   const connectOrCreateTagsData = tags.map((tagName: string) => {

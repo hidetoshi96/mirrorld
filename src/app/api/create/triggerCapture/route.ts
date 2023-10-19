@@ -5,15 +5,20 @@ const authorization = `luma-api-key=${process.env.LUMA_API_KEY ?? ""}`;
 
 export async function POST(req: NextRequest) {
   const { slug } = await req.json();
-
   if (!slug) {
     return NextResponse.json({ status: 400 });
   }
-  const res = await fetch(`${baseUrl}/${slug}`, {
-    method: "POST",
-    headers: {
-      Authorization: authorization,
-    },
-  });
-  return NextResponse.json(res);
+  try {
+    const res = await fetch(`${baseUrl}/${slug}`, {
+      method: "POST",
+      headers: {
+        Authorization: authorization,
+      },
+    });
+    const data = await res.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ status: 500 });
+  }
 }

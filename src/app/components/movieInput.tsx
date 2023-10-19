@@ -16,6 +16,7 @@ export default function MovieInput({ movieUrl, onChange }: Props) {
         <input
           name="movieUrl"
           type="file"
+          required
           accept=".mp4" //mp4以外でlumaAIが動くか分からない
           capture="environment"
           onChange={onChange}
