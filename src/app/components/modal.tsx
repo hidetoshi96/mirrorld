@@ -1,4 +1,4 @@
-import { Dialog } from "@headlessui/react";
+import { Dialog, Tab } from "@headlessui/react";
 import StampButton from "./stampButton";
 import Button from "./button";
 import { IconMapPin, IconLink } from "@tabler/icons-react";
@@ -13,6 +13,13 @@ import {
 } from "@heroicons/react/24/solid";
 import { Post } from "@/types/post";
 import Link from "next/link";
+import { useState } from "react";
+import {
+  CubeIcon,
+  CubeTransparentIcon,
+  FilmIcon,
+  PhotoIcon,
+} from "@heroicons/react/20/solid";
 
 interface Props {
   isOpen: boolean;
@@ -27,6 +34,9 @@ export default function Modal({
   post,
   postsUpdate,
 }: Props) {
+  const modes = ["slf", "sparkles", "lf", "video"];
+  const [modeIndex, setModeIndex] = useState<number>(0);
+  const date = new Date(post.createdTime);
   const handleUpdate = async (stampName: string) => {
     console.log("handleUpdate");
     const response = await fetch(`/api/posts/${post.id}/${stampName}`, {
@@ -35,48 +45,64 @@ export default function Modal({
     console.log(response);
     postsUpdate();
   };
-
-  const date = new Date(post.createdTime);
   return (
     <Dialog open={isOpen} onClose={() => setIsModalOpen(false)}>
       <div className="fixed inset-0 z-40 bg-black/30" aria-hidden="true" />
       <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto h-5/6 max-w-sm overflow-y-scroll rounded-xl bg-white">
-          <div className="mx-8 my-8 grid justify-items-stretch space-y-2.5">
-            <div className="flex flex-row place-self-center">
-              <p>{post.title}</p>
-              <Link
-                className="flex items-center"
-                href={`/map?latitude=${post.location.latitude}&longitude=${post.location.longitude}`}
-              >
-                <IconMapPin
-                  width={"16"}
-                  height={"16"}
-                  strokeWidth={"1"}
-                  className="text-primary"
-                />
-              </Link>
-              <button>
-                <IconLink
-                  width={"16"}
-                  height={"16"}
-                  strokeWidth={"1"}
-                  className="text-primary"
-                />
-              </button>
+        <Dialog.Panel className="mx-auto h-fit max-h-full w-full max-w-md overflow-y-scroll rounded-xl bg-white">
+          <div className="my-4 grid justify-items-stretch space-y-2.5 px-1">
+            <div>
+              <div className="flex flex-row justify-center place-self-center">
+                <p>{post.title}</p>
+                <Link
+                  className="flex items-center"
+                  href={`/map?latitude=${post.location.latitude}&longitude=${post.location.longitude}`}
+                >
+                  <IconMapPin
+                    width={"16"}
+                    height={"16"}
+                    strokeWidth={"1"}
+                    className="text-primary"
+                  />
+                </Link>
+                <button>
+                  <IconLink
+                    width={"16"}
+                    height={"16"}
+                    strokeWidth={"1"}
+                    className="text-primary"
+                  />
+                </button>
+              </div>
+              <p className="text-right text-xs">
+                {`${date.getFullYear()}年${
+                  date.getMonth() + 1
+                }月${date.getDate()}日`}
+              </p>
+              <iframe
+                className="h-[30rem] w-full place-self-center"
+                src={`https://lumalabs.ai/embed/${post.slug}?mode=${modes[modeIndex]}&background=%23ffffff&color=%23000000&showTitle=false&loadBg=false&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=false`}
+                title="luma embed"
+              ></iframe>
+              <div className="mt-1 flex items-center justify-end">
+                <Tab.Group selectedIndex={modeIndex} onChange={setModeIndex}>
+                  <Tab.List className="flex w-fit space-x-1 self-center rounded-lg bg-primary p-1">
+                    <Tab className="flex w-fit justify-center rounded-md ui-selected:bg-white ui-selected:text-primary ui-not-selected:bg-primary ui-not-selected:text-white">
+                      <CubeTransparentIcon className="mx-2 h-4 w-4 " />
+                    </Tab>
+                    <Tab className="flex w-fit justify-center rounded-md ui-selected:bg-white ui-selected:text-primary ui-not-selected:bg-primary ui-not-selected:text-white">
+                      <CubeIcon className="mx-2 h-4 w-4" />
+                    </Tab>
+                    <Tab className="flex w-fit justify-center rounded-md ui-selected:bg-white ui-selected:text-primary ui-not-selected:bg-primary ui-not-selected:text-white">
+                      <PhotoIcon className="mx-2 h-4 w-4 " />
+                    </Tab>
+                    <Tab className="flex w-fit justify-center rounded-md ui-selected:bg-white ui-selected:text-primary ui-not-selected:bg-primary ui-not-selected:text-white">
+                      <FilmIcon className="mx-2 h-4 w-4" />
+                    </Tab>
+                  </Tab.List>
+                </Tab.Group>
+              </div>
             </div>
-            <iframe
-              className="place-self-center"
-              src={`https://lumalabs.ai/embed/${post.slug}?mode=video&background=%23ffffff&color=%23000000&showTitle=false&loadBg=false&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=true`}
-              width="300"
-              height="450"
-              title="luma embed"
-            ></iframe>
-            <p className="text-center text-xs">
-              {`${date.getFullYear()}年${
-                date.getMonth() + 1
-              }月${date.getDate()}日`}
-            </p>
             <p className="text-center text-xs text-primary">
               {post.tags.map((tag) => "#" + tag).join(" ")}
             </p>
