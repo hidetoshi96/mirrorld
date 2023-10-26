@@ -26,7 +26,8 @@ export default function CreatePage() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const key = event.target.name;
     switch (key) {
-      case "latitude" || "longitude":
+      case "latitude":
+      case "longitude":
         setInputs({ ...inputs, [key]: parseFloat(event.target.value) });
         break;
       case "tags":
