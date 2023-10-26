@@ -77,7 +77,7 @@ export default function CreatePage() {
           slug: slug,
           latitude: inputs.latitude,
           longitude: inputs.longitude,
-          tags: [],
+          tags: inputs.tags,
         }),
       });
     } catch (error) {
