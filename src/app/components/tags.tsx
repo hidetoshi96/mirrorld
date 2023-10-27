@@ -26,8 +26,8 @@ export default function Tags({ tags, selectedTags, setSelectedTags }: Props) {
         </div>
       </div>
 
-      <Popover.Panel className="absolute z-10 mt-3 transform px-4">
-        <div className="m-4 overflow-hidden rounded-lg">
+      <Popover.Panel className="absolute z-10 transform px-4">
+        <div className="m-3 overflow-hidden rounded-lg">
           <div className="relative grid gap-1 ">
             <TagCombobox
               tags={tags}
