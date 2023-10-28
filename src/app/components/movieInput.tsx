@@ -1,4 +1,4 @@
-import { IconPlus } from "@tabler/icons-react";
+import { IconPlus, IconReplace } from "@tabler/icons-react";
 
 interface Props {
   movieUrl: string | null;
@@ -12,7 +12,12 @@ export default function MovieInput({ movieUrl, onChange }: Props) {
         動画ファイルを選択
       </p>
       <label className="flex w-full flex-col items-center rounded-md border border-solid border-gray">
-        <IconPlus strokeWidth={"1"} />
+        {movieUrl === null ? (
+          <IconPlus strokeWidth={"1"} />
+        ) : (
+          <IconReplace strokeWidth={"1"} />
+        )}
+
         <input
           name="movieUrl"
           type="file"
