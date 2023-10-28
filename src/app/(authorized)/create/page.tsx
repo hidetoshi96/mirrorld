@@ -86,35 +86,37 @@ export default function CreatePage() {
   };
 
   return (
-    <div className="space-y-8 py-8">
+    <div className="flex h-full flex-col space-y-8 pt-8">
       <div className="flex flex-row justify-center">
         <p className="text-3xl font-semibold text-secondary">3Dモデル作成</p>
       </div>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col items-stretch space-y-5 px-5"
-      >
-        <TextInput
-          name={"title"}
-          labelName={"タイトル"}
-          placeHolder={"和歌山ラーメン"}
-          onChange={handleChange}
-        />
-        <LocationInput onChange={handleChange} />
-        <MovieInput
-          movieUrl={inputs["movieUrl"]}
-          onChange={handleChangeMovie}
-        />
-        <TextInput
-          name={"tags"}
-          labelName={"タグ"}
-          placeHolder={"食べ物 ラーメン 日本"}
-          onChange={handleChange}
-        />
-        <Button text={"シェア"}>
-          <PaperAirplaneIcon className="h-6 w-6 text-white" />
-        </Button>
-      </form>
+      <div className="flex grow items-center justify-center">
+        <form
+          onSubmit={handleSubmit}
+          className="mb-6 max-w-sm space-y-5 rounded-lg border-0 border-gray px-8 sm:border sm:py-4"
+        >
+          <TextInput
+            name={"title"}
+            labelName={"タイトル"}
+            placeHolder={"和歌山ラーメン"}
+            onChange={handleChange}
+          />
+          <LocationInput onChange={handleChange} />
+          <MovieInput
+            movieUrl={inputs["movieUrl"]}
+            onChange={handleChangeMovie}
+          />
+          <TextInput
+            name={"tags"}
+            labelName={"タグ"}
+            placeHolder={"食べ物 ラーメン 日本"}
+            onChange={handleChange}
+          />
+          <Button text={"シェア"} addClass="w-full">
+            <PaperAirplaneIcon className="h-6 w-6 text-white" />
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }
