@@ -16,6 +16,9 @@ const config: Config = {
       fontSize: {
         xxs: ".625rem",
       },
+      aspectRatio: {
+        platinum: "1 / 1.414",
+      },
     },
     colors: {
       black: "#000000",
