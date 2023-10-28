@@ -19,6 +19,9 @@ const config: Config = {
       aspectRatio: {
         platinum: "1 / 1.414",
       },
+      animation: {
+        spinSlow: "spin 2.25s linear infinite",
+      },
     },
     colors: {
       black: "#000000",
