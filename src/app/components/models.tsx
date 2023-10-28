@@ -27,13 +27,12 @@ export default function Models({
             </div>
           </Disclosure.Button>
           <Disclosure.Panel>
-            <div className="grid-flow-rows grid grid-cols-2 place-content-center gap-8  px-2.5">
+            <div className="grid-flow-rows grid grid-cols-2 place-items-start gap-8 px-2.5 md:grid-cols-4 lg:grid-cols-6">
               {posts != null &&
                 posts.map((post: Post, index: number) => {
                   return (
                     <button
                       key={index}
-                      className="grid justify-center justify-items-center"
                       onClick={() => {
                         setSelectPostId(index);
                         setIsModalOpen(true);
@@ -41,11 +40,11 @@ export default function Models({
                     >
                       <Image
                         priority
-                        className="h-44 w-32 rounded-2xl object-cover"
+                        className="aspect-platinum rounded-2xl object-cover"
                         src={post.imageUrl}
                         alt="Post image"
-                        width={120}
-                        height={150}
+                        height={1600}
+                        width={900}
                         placeholder="blur"
                         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8WQ8AAjcBWtrfQHkAAAAASUVORK5CYII="
                       />
