@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/app/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 const baseUrl = "https://webapp.engineeringlumalabs.com/api/v2/capture";
 const authorization = `luma-api-key=${process.env.LUMA_API_KEY ?? ""}`;
-const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
   if (
