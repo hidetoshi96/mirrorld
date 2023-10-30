@@ -4,11 +4,14 @@ import { IconChevronDown } from "@tabler/icons-react";
 import { Post } from "@/types/post";
 
 interface Props {
+  title: string;
+
   posts: Post[];
-  setSelectPostId: (selectPostId: number) => void;
+  setSelectPostId: (postId: number) => void;
   setIsModalOpen: (isModalOpen: boolean) => void;
 }
 export default function Models({
+  title,
   posts,
   setSelectPostId,
   setIsModalOpen,
@@ -19,7 +22,7 @@ export default function Models({
         <>
           <Disclosure.Button className="w-full">
             <div className="flex w-full flex-row justify-between">
-              <p className="text-2xl font-semibold text-secondary">Posts</p>
+              <p className="text-2xl font-semibold text-secondary">{title}</p>
               <IconChevronDown
                 strokeWidth="1"
                 className={`${open ? "" : "rotate-180 transform"}`}

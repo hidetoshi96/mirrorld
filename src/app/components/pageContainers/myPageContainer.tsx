@@ -8,12 +8,12 @@ import { IconUserCircle } from "@tabler/icons-react";
 import { Post } from "@/types/post";
 
 interface Props {
-  initialPosts: Post[];
+  initialPosts: { [key: string]: Post[] };
 }
 
 export default function MyPageContainer({ initialPosts }: Props) {
-  const [posts, setPosts] = useState<Post[]>(initialPosts);
-  const [selectPostId, setSelectPostId] = useState<number>(0);
+  const [posts, setPosts] = useState<{ [key: string]: Post[] }>(initialPosts);
+  const [selectPostId, setSelectPostId] = useState<[string, number]>(["", 0]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { data: session } = useSession();
 
@@ -49,25 +49,43 @@ export default function MyPageContainer({ initialPosts }: Props) {
                 strokeWidth={"1"}
               />
             )}
-
             <p className="self-center text-xl font-semibold text-secondary">
               {session?.user?.name}
             </p>
           </div>
           <div className="space-y-5">
             <Models
-              posts={posts}
-              setSelectPostId={setSelectPostId}
+              title={"MyPosts"}
+              posts={posts.posts}
+              setSelectPostId={(index) => {
+                setSelectPostId(["posts", index]);
+              }}
+              setIsModalOpen={setIsModalOpen}
+            />
+            <Models
+              title={"Wonderful"}
+              posts={posts.wonderfulPosts}
+              setSelectPostId={(index) => {
+                setSelectPostId(["wonderfulPosts", index]);
+              }}
+              setIsModalOpen={setIsModalOpen}
+            />
+            <Models
+              title={"NiceChallenge"}
+              posts={posts.niceChallengePosts}
+              setSelectPostId={(index) => {
+                setSelectPostId(["niceChallengePosts", index]);
+              }}
               setIsModalOpen={setIsModalOpen}
             />
           </div>
         </div>
       </div>
-      {Object.keys(posts).length != 0 && (
+      {isModalOpen && (
         <Modal
           isOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          post={posts[selectPostId]}
+          post={posts[selectPostId[0]][selectPostId[1]]}
           postsUpdate={handlePostUpdate}
         ></Modal>
       )}
