@@ -5,11 +5,14 @@ import MovieInput from "@/app/components/movieInput";
 import TextInput from "@/app/components/textInput";
 import { useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
+import { Location } from "@/types/post";
 
 type inputsProp = {
   title: string | null;
-  latitude: number | null;
-  longitude: number | null;
+  location: {
+    latitude: number | null;
+    longitude: number | null;
+  };
   movieUrl: string | null;
   tags: string[];
 };
@@ -18,8 +21,7 @@ export default function CreatePage() {
   const [movie, setMovie] = useState<File | null>(null);
   const [inputs, setInputs] = useState<inputsProp>({
     title: null,
-    latitude: null,
-    longitude: null,
+    location: { longitude: null, latitude: null },
     movieUrl: null,
     tags: [],
   });
@@ -43,6 +45,10 @@ export default function CreatePage() {
         setInputs({ ...inputs, [key]: event.target.value });
     }
   };
+  const handleChangeLocation = (newLocation: Location) => {
+    setInputs({ ...inputs, location: newLocation });
+  };
+
   const handleChangeMovie = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
     const fileObject = event.target.files[0];
@@ -75,8 +81,7 @@ export default function CreatePage() {
         body: JSON.stringify({
           title: inputs.title,
           slug: slug,
-          latitude: inputs.latitude,
-          longitude: inputs.longitude,
+          location: inputs.location,
           tags: inputs.tags,
         }),
       });
@@ -101,7 +106,10 @@ export default function CreatePage() {
             placeHolder={"和歌山ラーメン"}
             onChange={handleChange}
           />
-          <LocationInput onChange={handleChange} />
+          <LocationInput
+            location={inputs.location}
+            onChange={handleChangeLocation}
+          />
           <MovieInput
             movieUrl={inputs["movieUrl"]}
             onChange={handleChangeMovie}

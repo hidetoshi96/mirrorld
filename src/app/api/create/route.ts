@@ -10,8 +10,8 @@ export async function PUT(req: NextRequest) {
   if (!session) {
     return NextResponse.json({ status: 401 });
   }
-  const { title, slug, latitude, longitude, tags } = await req.json();
-  if (!(title && slug && latitude && longitude && tags)) {
+  const { title, slug, location, tags } = await req.json();
+  if (!(title && slug && location.longitude && location.latitude && tags)) {
     return NextResponse.json({ status: 400 });
   }
   const connectOrCreateTagsData = tags.map((tagName: string) => {
@@ -24,8 +24,8 @@ export async function PUT(req: NextRequest) {
     data: {
       title: title,
       slug: slug,
-      latitude: latitude,
-      longitude: longitude,
+      latitude: location.latitude,
+      longitude: location.longitude,
       imageUrl: null,
       threeDimensionalModelUrl: null,
       author: {
