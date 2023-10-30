@@ -8,7 +8,7 @@ export default function BottomNav() {
   const pathname = usePathname();
   return (
     <div className={`z-30 w-full border-t border-gray bg-white`}>
-      <div className="flex h-full flex-row py-2">
+      <div className="flex h-full flex-row py-1.5">
         <Link
           href="/map"
           className={`flex w-full flex-col items-center justify-center ${
@@ -17,7 +17,7 @@ export default function BottomNav() {
               : "fill-gray text-gray"
           }`}
         >
-          <IconMap2 width={"40"} height={"40"} strokeWidth={"1"} />
+          <IconMap2 width={"30"} height={"30"} strokeWidth={"1"} />
           <span className="text-xxs">地図</span>
         </Link>
         <Link
@@ -28,7 +28,7 @@ export default function BottomNav() {
               : "fill-gray text-gray"
           }`}
         >
-          <IconCubePlus width={"40"} height={"40"} strokeWidth={"1"} />
+          <IconCubePlus width={"30"} height={"30"} strokeWidth={"1"} />
           <span className="text-xxs">作成</span>
         </Link>
         <Link
@@ -39,7 +39,7 @@ export default function BottomNav() {
               : "fill-gray text-gray"
           }`}
         >
-          <IconUserCircle width={"40"} height={"40"} strokeWidth={"1"} />
+          <IconUserCircle width={"30"} height={"30"} strokeWidth={"1"} />
           <span className="text-xxs">マイページ</span>
         </Link>
       </div>
