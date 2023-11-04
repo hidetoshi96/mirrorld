@@ -5,10 +5,8 @@ const baseUrl = "https://webapp.engineeringlumalabs.com/api/v2/capture";
 const authorization = `luma-api-key=${process.env.LUMA_API_KEY ?? ""}`;
 
 export async function GET(req: NextRequest) {
-  if (
-    req.headers.get("Authorization") !==
-    `Bearer ${process.env.CRON_SECRET ?? ""}`
-  ) {
+  const authHeader = req.headers.get("authorization");
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ status: 401 });
   }
   const postsInProgress = await prisma.post.findMany({
@@ -17,8 +15,7 @@ export async function GET(req: NextRequest) {
       slug: true,
     },
   });
-
-  postsInProgress.forEach(async (post) => {
+  for (const post of postsInProgress) {
     const res = await fetch(`${baseUrl}/${post.slug}`, {
       method: "GET",
       headers: {
@@ -47,6 +44,6 @@ export async function GET(req: NextRequest) {
         threeDimensionalModelUrl: model.url,
       },
     });
-  });
+  }
   return NextResponse.json({ status: 200 });
 }
