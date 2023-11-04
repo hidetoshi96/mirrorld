@@ -12,6 +12,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
       },
       select: {
         posts: {
+          where: {
+            isCreateCompleted: true,
+          },
           select: {
             id: true,
             title: true,
@@ -32,6 +35,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
           },
         },
         wonderfulPosts: {
+          where: {
+            isCreateCompleted: true,
+          },
           select: {
             id: true,
             title: true,
@@ -52,6 +58,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
           },
         },
         niceChallengePosts: {
+          where: {
+            isCreateCompleted: true,
+          },
           select: {
             id: true,
             title: true,
