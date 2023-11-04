@@ -7,6 +7,9 @@ export async function GET() {
   const session = await getServerSession(authOptions);
   if (session) {
     const res = await prisma.post.findMany({
+      where: {
+        isCreateCompleted: true,
+      },
       select: {
         id: true,
         title: true,
