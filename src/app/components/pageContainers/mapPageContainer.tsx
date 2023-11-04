@@ -16,7 +16,7 @@ interface Props {
 export default function MapPageContainer({ initialPosts, initialTags }: Props) {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [tags, setTags] = useState<string[]>(initialTags);
-  const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
+  const [selectedTabIndex, setSelectedTabIndex] = useState<number>(1);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectPostId, setSelectPostId] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
