@@ -100,12 +100,13 @@ export default function CreatePage() {
       });
       setAlertState({ isOpen: true, status: "success" });
     } catch (error) {
-      console.error(error);
-      setAlertState({
-        isOpen: true,
-        status: "error",
-        message: error as string,
-      });
+      if (error instanceof Error) {
+        setAlertState({
+          isOpen: true,
+          status: "error",
+          message: error.message.toString(),
+        });
+      }
     }
   };
 
