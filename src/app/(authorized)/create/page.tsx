@@ -6,6 +6,7 @@ import TextInput from "@/app/components/textInput";
 import { useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { Location } from "@/types/post";
+import Alert from "@/app/components/alert";
 
 type inputsProp = {
   title: string | null;
@@ -17,6 +18,11 @@ type inputsProp = {
   tags: string[];
 };
 
+type alertProp = {
+  isOpen: boolean;
+  status: "error" | "success";
+};
+
 export default function CreatePage() {
   const [movie, setMovie] = useState<File | null>(null);
   const [inputs, setInputs] = useState<inputsProp>({
@@ -25,6 +31,11 @@ export default function CreatePage() {
     movieUrl: null,
     tags: [],
   });
+  const [alertState, setAlertState] = useState<alertProp>({
+    isOpen: true,
+    status: "error",
+  });
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const key = event.target.name;
     switch (key) {
@@ -85,46 +96,55 @@ export default function CreatePage() {
           tags: inputs.tags,
         }),
       });
+      setAlertState({ isOpen: true, status: "success" });
     } catch (error) {
       console.error(error);
+      setAlertState({ isOpen: true, status: "error" });
     }
   };
 
   return (
-    <div className="flex h-full flex-col space-y-8 pt-8">
-      <div className="flex flex-row justify-center">
-        <p className="text-3xl font-semibold text-secondary">3Dモデル作成</p>
+    <>
+      <div className="flex h-full flex-col space-y-8 pt-8">
+        <div className="flex flex-row justify-center">
+          <p className="text-3xl font-semibold text-secondary">3Dモデル作成</p>
+        </div>
+        <div className="flex grow items-center justify-center">
+          <form
+            onSubmit={handleSubmit}
+            className="mb-6 max-w-sm space-y-5 rounded-lg border-0 border-gray px-8 sm:border sm:py-4"
+          >
+            <TextInput
+              name={"title"}
+              labelName={"タイトル"}
+              placeHolder={"和歌山ラーメン"}
+              onChange={handleChange}
+            />
+            <LocationInput
+              location={inputs.location}
+              onChange={handleChangeLocation}
+            />
+            <MovieInput
+              movieUrl={inputs["movieUrl"]}
+              onChange={handleChangeMovie}
+            />
+            <TextInput
+              name={"tags"}
+              labelName={"タグ"}
+              placeHolder={"食べ物 ラーメン 日本"}
+              onChange={handleChange}
+            />
+            <Button text={"シェア"} addClass="w-full">
+              <PaperAirplaneIcon className="h-6 w-6 text-white" />
+            </Button>
+          </form>
+        </div>
       </div>
-      <div className="flex grow items-center justify-center">
-        <form
-          onSubmit={handleSubmit}
-          className="mb-6 max-w-sm space-y-5 rounded-lg border-0 border-gray px-8 sm:border sm:py-4"
-        >
-          <TextInput
-            name={"title"}
-            labelName={"タイトル"}
-            placeHolder={"和歌山ラーメン"}
-            onChange={handleChange}
-          />
-          <LocationInput
-            location={inputs.location}
-            onChange={handleChangeLocation}
-          />
-          <MovieInput
-            movieUrl={inputs["movieUrl"]}
-            onChange={handleChangeMovie}
-          />
-          <TextInput
-            name={"tags"}
-            labelName={"タグ"}
-            placeHolder={"食べ物 ラーメン 日本"}
-            onChange={handleChange}
-          />
-          <Button text={"シェア"} addClass="w-full">
-            <PaperAirplaneIcon className="h-6 w-6 text-white" />
-          </Button>
-        </form>
-      </div>
-    </div>
+      <Alert
+        isOpen={alertState.isOpen}
+        status={alertState.status}
+        setState={setAlertState}
+      />
+    </>
   );
 }
