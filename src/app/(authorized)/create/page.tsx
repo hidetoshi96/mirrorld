@@ -32,7 +32,7 @@ export default function CreatePage() {
     tags: [],
   });
   const [alertState, setAlertState] = useState<alertProp>({
-    isOpen: true,
+    isOpen: false,
     status: "error",
   });
 
