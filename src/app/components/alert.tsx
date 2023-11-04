@@ -6,11 +6,12 @@ import { Dispatch, SetStateAction } from "react";
 interface Props {
   isOpen: boolean;
   status: "success" | "error";
+  message?: string;
   setState: Dispatch<
     SetStateAction<{ isOpen: boolean; status: "success" | "error" }>
   >;
 }
-export default function Alert({ isOpen, status, setState }: Props) {
+export default function Alert({ isOpen, status, message, setState }: Props) {
   return (
     <Dialog
       open={isOpen}
@@ -32,6 +33,8 @@ export default function Alert({ isOpen, status, setState }: Props) {
                   エラーが発生しました
                   <br />
                   しばらくたってからもう一度やり直してください
+                  <br />
+                  {message}
                 </>
               )}
             </p>

@@ -21,6 +21,7 @@ type inputsProp = {
 type alertProp = {
   isOpen: boolean;
   status: "error" | "success";
+  message?: string;
 };
 
 export default function CreatePage() {
@@ -34,6 +35,7 @@ export default function CreatePage() {
   const [alertState, setAlertState] = useState<alertProp>({
     isOpen: false,
     status: "error",
+    message: "",
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +101,11 @@ export default function CreatePage() {
       setAlertState({ isOpen: true, status: "success" });
     } catch (error) {
       console.error(error);
-      setAlertState({ isOpen: true, status: "error" });
+      setAlertState({
+        isOpen: true,
+        status: "error",
+        message: error as string,
+      });
     }
   };
 
@@ -143,6 +149,7 @@ export default function CreatePage() {
       <Alert
         isOpen={alertState.isOpen}
         status={alertState.status}
+        message={alertState.message}
         setState={setAlertState}
       />
     </>
