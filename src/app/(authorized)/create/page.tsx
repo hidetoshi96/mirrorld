@@ -7,6 +7,7 @@ import { useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { Location } from "@/types/post";
 import Alert from "@/app/components/alert";
+import Spinner from "@/app/components/loading";
 
 type inputsProp = {
   title: string | null;
@@ -31,6 +32,7 @@ export default function CreatePage() {
     movieUrl: null,
     tags: [],
   });
+  const [isLoad, setIsLoad] = useState<boolean>(false);
   const [alertState, setAlertState] = useState<alertProp>({
     isOpen: false,
     status: "error",
@@ -39,10 +41,6 @@ export default function CreatePage() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const key = event.target.name;
     switch (key) {
-      case "latitude":
-      case "longitude":
-        setInputs({ ...inputs, [key]: parseFloat(event.target.value) });
-        break;
       case "tags":
         const tagArray = event.target.value.split(/[\s　]+/);
         const removeEmptyTags = tagArray.filter((tag) => tag !== "");
@@ -72,6 +70,7 @@ export default function CreatePage() {
   };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoad(true);
     try {
       const createRes = await fetch("/api/create/createCapture", {
         method: "POST",
@@ -97,9 +96,11 @@ export default function CreatePage() {
           tags: inputs.tags,
         }),
       });
+      setIsLoad(false);
       setAlertState({ isOpen: true, status: "success" });
     } catch (error) {
       if (error instanceof Error) {
+        setIsLoad(false);
         setAlertState({
           isOpen: true,
           status: "error",
@@ -117,31 +118,40 @@ export default function CreatePage() {
         <div className="flex grow items-center justify-center">
           <form
             onSubmit={handleSubmit}
-            className="mb-6 max-w-sm space-y-5 rounded-lg border-0 border-gray px-8 sm:border sm:py-4"
+            className="mb-6 w-96 space-y-5 rounded-lg border-0 border-gray px-8 sm:border sm:py-4"
           >
-            <TextInput
-              name={"title"}
-              labelName={"タイトル"}
-              placeHolder={"和歌山ラーメン"}
-              onChange={handleChange}
-            />
-            <LocationInput
-              location={inputs.location}
-              onChange={handleChangeLocation}
-            />
-            <MovieInput
-              movieUrl={inputs["movieUrl"]}
-              onChange={handleChangeMovie}
-            />
-            <TextInput
-              name={"tags"}
-              labelName={"タグ"}
-              placeHolder={"食べ物 ラーメン 日本"}
-              onChange={handleChange}
-            />
-            <Button text={"シェア"} addClass="w-full">
-              <PaperAirplaneIcon className="h-6 w-6 text-white" />
-            </Button>
+            {isLoad ? (
+              <div className="flex flex-col items-center space-y-6 py-16">
+                <Spinner />
+                <p>Uploading...</p>
+              </div>
+            ) : (
+              <>
+                <TextInput
+                  name={"title"}
+                  labelName={"タイトル"}
+                  placeHolder={"和歌山ラーメン"}
+                  onChange={handleChange}
+                />
+                <LocationInput
+                  location={inputs.location}
+                  onChange={handleChangeLocation}
+                />
+                <MovieInput
+                  movieUrl={inputs["movieUrl"]}
+                  onChange={handleChangeMovie}
+                />
+                <TextInput
+                  name={"tags"}
+                  labelName={"タグ"}
+                  placeHolder={"食べ物 ラーメン 日本"}
+                  onChange={handleChange}
+                />
+                <Button text={"シェア"} addClass="w-full">
+                  <PaperAirplaneIcon className="h-6 w-6 text-white" />
+                </Button>
+              </>
+            )}
           </form>
         </div>
       </div>
