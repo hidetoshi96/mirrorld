@@ -35,7 +35,6 @@ export default function CreatePage() {
   const [alertState, setAlertState] = useState<alertProp>({
     isOpen: false,
     status: "error",
-    message: "",
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +45,7 @@ export default function CreatePage() {
         setInputs({ ...inputs, [key]: parseFloat(event.target.value) });
         break;
       case "tags":
-        const tagArray = event.target.value.split(" ");
+        const tagArray = event.target.value.split(/[\s　]+/);
         const removeEmptyTags = tagArray.filter((tag) => tag !== "");
         const uniqueTagObjects = new Set(removeEmptyTags);
         setInputs({
@@ -54,8 +53,11 @@ export default function CreatePage() {
           [key]: Array.from(uniqueTagObjects),
         });
         break;
-      default:
-        setInputs({ ...inputs, [key]: event.target.value });
+      case "title":
+        setInputs({
+          ...inputs,
+          [key]: event.target.value,
+        });
     }
   };
   const handleChangeLocation = (newLocation: Location) => {
@@ -79,12 +81,10 @@ export default function CreatePage() {
       const createResJson = await createRes.json();
       const uploadPath = createResJson.signedUrls.source;
       const slug = createResJson.capture.slug;
-
       const uploadRes = await fetch(uploadPath, {
         method: "PUT",
         body: movie,
       });
-
       await fetch("/api/create/triggerCapture", {
         method: "POST",
         body: JSON.stringify({ slug: slug }),
@@ -104,7 +104,6 @@ export default function CreatePage() {
         setAlertState({
           isOpen: true,
           status: "error",
-          message: error.message.toString(),
         });
       }
     }
@@ -150,7 +149,6 @@ export default function CreatePage() {
       <Alert
         isOpen={alertState.isOpen}
         status={alertState.status}
-        message={alertState.message}
         setState={setAlertState}
       />
     </>
