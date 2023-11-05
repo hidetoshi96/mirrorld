@@ -71,7 +71,7 @@ export default function MyPageContainer({ initialPosts }: Props) {
               setIsModalOpen={setIsModalOpen}
             />
             <Models
-              title={"NiceChallenge"}
+              title={"Nice Challenge"}
               posts={posts.niceChallengePosts}
               setSelectPostId={(index) => {
                 setSelectPostId(["niceChallengePosts", index]);
