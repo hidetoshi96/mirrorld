@@ -21,7 +21,6 @@ type inputsProp = {
 type alertProp = {
   isOpen: boolean;
   status: "error" | "success";
-  message?: string;
 };
 
 export default function CreatePage() {
