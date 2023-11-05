@@ -32,7 +32,7 @@ export default function CreatePage() {
     movieUrl: null,
     tags: [],
   });
-  const [isLoad, setIsLoad] = useState<boolean>(true);
+  const [isLoad, setIsLoad] = useState<boolean>(false);
   const [alertState, setAlertState] = useState<alertProp>({
     isOpen: false,
     status: "error",
