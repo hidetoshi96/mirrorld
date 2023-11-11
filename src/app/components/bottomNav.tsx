@@ -8,7 +8,7 @@ export default function BottomNav() {
   const pathname = usePathname();
   return (
     <div className={`z-30 w-full border-t border-gray bg-white`}>
-      <div className="flex h-full flex-row py-1.5">
+      <div className="mb-3 flex h-full flex-row py-1.5">
         <Link
           href="/map"
           className={`flex w-full flex-col items-center justify-center ${
