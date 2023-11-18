@@ -3,15 +3,15 @@
 ## 動作環境
 
 - PC: surface laptop4
-  - Chrome 117.0.5938.134
-- Android: pixel5a
-  - Chrome 117.0.5938.134
+- Smartphone: pixel6a, iPhoneXR
+- Tablet: iPad Air(第４世代)
 
 ## 使用技術
 
 - [Next.js](https://nextjs.org/)
 - [React](https://react.dev/)
 - [next-pwa](https://github.com/DuCanhGH/next-pwa)
+- [Auth.js](https://authjs.dev/)
 - [mapbox](https://www.mapbox.jp/)
 - [Luma AI](https://lumalabs.ai/)
 - [PlanetScale](https://planetscale.com/)
